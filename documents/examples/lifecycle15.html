@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LifeCycle-Version 15</title>
+
+  <script src="./lib/react.js"></script>
+  <script src="./lib/react-dom.js"></script>
+  <script src="https://cdn.bootcss.com/babel-core/5.8.38/browser.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" >
+    class LifeCycle15 extends React.Component {
+      constructor (props) {
+        console.log('constructor');
+        super(props)
+        // 初始化
+        this.state = {
+          text: '子组件的文本'
+        }
+        this.changeText = this.changeText.bind(this);
+      }
+      componentWillMount () { console.log('componentWillMount 初始化渲染'); }
+      componentDidMount () { console.log('componentDidMount'); }
+      componentWillReceiveProps (nextProps) { console.log('componentWillReceiveProps'); }
+      shouldComponentUpdate (nextProps, nextState) { console.log('shouldComponentUpdate'); return true; }
+      componentWillUpdate (nextProps, nextState) { console.log('componentWillUpdate'); }
+      componentDidUpdate (nextProps, nextState) { console.log('componentDidUpdate'); }
+      componentWillUnmount () { console.log('componentWillUnmount'); };
+
+
+      changeText () {
+        this.setState({
+          text: '修改后的文本'
+        })
+      }
+
+      render () {
+        console.log('child render');
+
+        return (
+          <div className="container">
+            <button onClick={ this.changeText } className="changeText">修改子组件文本内容</button>
+            <p className="text__content">{ this.state.text }</p>
+            <p className="parent__content">{ this.props.text }</p>
+          </div>
+        )
+      }
+    }
+
+    // 父组件
+    class LifeCycleContainer extends React.Component {
+      constructor () {
+        super()
+        this.state = {
+          text: '父组件的文本',
+          hideChild: false
+        }
+        this.changeText = this.changeText.bind(this);
+        this.hideChild = this.hideChild.bind(this);
+      }
+
+      changeText () {
+        this.setState({
+          text: '修改后的父组件文本'
+        })
+      }
+      hideChild () {
+        this.setState({
+          hideChild: !this.state.hideChild
+        })
+      }
+
+      render () {
+        console.log('parent render');
+        return (
+          <div className="parent__container">
+            <button onClick={ this.changeText }>修改父组件文本内容</button>
+            <button onClick={ this.hideChild }>隐藏子组件</button>
+            {
+              !this.state.hideChild && <LifeCycle15 text={ this.state.text } />
+            }
+          </div>
+        )
+      }
+    }
+
+    ReactDOM.render(
+      <LifeCycleContainer />,
+      document.getElementById('root')
+    )
+  </script>
+</body>
+</html>
