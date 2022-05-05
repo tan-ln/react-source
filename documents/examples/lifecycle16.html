@@ -14,7 +14,7 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    class LifeCycle15 extends React.Component {
+    class LifeCycle16 extends React.Component {
       constructor (props) {
         console.log('constructor');
         super(props)
@@ -106,7 +106,7 @@
             <button onClick={ this.changeText }>修改父组件文本内容</button>
             <button onClick={ this.hideChild }>隐藏子组件</button>
             {
-              !this.state.hideChild && <LifeCycle15 text={ this.state.text } />
+              !this.state.hideChild && <LifeCycle16 text={ this.state.text } />
             }
           </div>
         )
